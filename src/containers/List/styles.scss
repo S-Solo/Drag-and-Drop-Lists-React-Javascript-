@@ -1,0 +1,41 @@
+.list-wrapper {
+    height: inherit;
+    .list-main {
+        width: 50%;
+        height: 70%;
+        .header-container {
+            height: 100px;
+            width: 100%;
+            background-color: rgb(119, 115, 115);
+            border-right: 2px solid #666;
+            .header-text {
+                font-size: 24px;
+                font-weight: bold;
+                color: white;
+            }
+        }
+        .lists {
+            height: calc(100% - 100px);
+        }
+    }
+}
+
+
+
+@media only screen and (max-width: 1024px) {
+    .list-wrapper {
+        .list-main {
+            width: 80%;
+            height: 90%;
+        }
+    }
+}
+
+@media only screen and (max-width: 736px) {
+    .list-wrapper {
+        .list-main {
+            width: 85%;
+            height: 95%;
+        }
+    }
+}

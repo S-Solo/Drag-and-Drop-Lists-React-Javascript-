@@ -1,0 +1,9 @@
+.atom_input-field {
+    width: 100%;
+    border: none;
+    background: none;
+    &:focus {
+        border: 2px solid #99D4FF;
+        box-sizing: border-box;
+    }
+}
