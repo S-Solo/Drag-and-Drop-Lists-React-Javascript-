@@ -3,7 +3,6 @@
     border: none;
     background: none;
     &:focus {
-        border: 2px solid #99D4FF;
-        box-sizing: border-box;
+        outline: 2px solid #99D4FF;
     }
 }

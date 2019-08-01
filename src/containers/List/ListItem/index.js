@@ -1,4 +1,6 @@
 import React, { forwardRef } from 'react';
+import { useDrag } from 'react-dnd';
+
 import {
     FlexBox,
     TextBlock,
@@ -7,14 +9,34 @@ import {
 
 import './styles.scss';
 
-const ListItem = forwardRef(({ index, value, changeHandler, onKeyDown }, ref) => {
+const ListItem = forwardRef(({
+    index,
+    value,
+    listLength,
+    onKeyDown,
+    addListItem,
+    editHandler,
+    deleteListItem,
+    isDragging }, ref) => {
+    const [{ opacity }, dragRef] = useDrag({
+        item: { type: 'LIST_ITEM', value },
+        collect: monitor => ({
+            opacity: monitor.isDragging() ? 0.5 : 1,
+        }),
+    })
+
     return (
-        <FlexBox className="list-item" align>
+        <FlexBox
+            className="list-item"
+            align
+            ref={dragRef}
+            style={{opacity}}
+        >
             <TextBlock className="list-item-index">{index + 1}.</TextBlock>
             <InputField
                 ref={ref}
                 value={value}
-                onChange={e => changeHandler(index, e)}
+                onChange={e => editHandler(index, e)}
                 className="list-item-input"
                 onKeyDown={onKeyDown}
             />
@@ -25,7 +47,12 @@ const ListItem = forwardRef(({ index, value, changeHandler, onKeyDown }, ref) =>
 ListItem.defaultProps = {
     index: 0,
     value: '',
-    changeHandler: () => { }
+    listLength: 0,
+    editHandler: () => { },
+    onKeyDown: () => { },
+    addListItem: () => { },
+    deleteListItem: () => { },
+    ref: null,
 }
 
 export default ListItem;

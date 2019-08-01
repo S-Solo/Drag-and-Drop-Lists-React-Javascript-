@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
+
 import {
     FlexBox,
     TextBlock,
@@ -9,47 +10,44 @@ import ListItem from '../ListItem';
 
 import './styles.scss';
 
-const ListContainer = ({ title }) => {
-    const [list, setList] = useState([
-        "text1",
-        "text2",
-        "text3",
-        "text4",
-        "",
-    ])
+const ListContainer = ({
+    title,
+    list,
+    addListItem,
+    editListItem,
+    deleteListItem,
+}) => {
     const lastItemRef = useRef(null);
-    const changeHandler = (index, event) => {
-        if(event.target.value === '') {
-            const newList = [...list];
-            newList.splice(index, 1);
-            setList(newList);
+
+    const editHandler = (index, event) => {
+        const { value } = event.target;
+        if (value === '') {
+            if (index === list.length - 1) {
+                return;
+            }
+            deleteListItem(index);
             return;
         }
         if (index === list.length - 1) {
-            addHandler(index, event)
+            editListItem(index, value);
+            addListItem();
+            event.target.focus();
             return;
         }
-        const newList = [...list];
-        newList[index] = event.target.value;
-        setList(newList);
-    }
-
-    const addHandler = (index, event) => {
-        const newList = [...list];
-        newList[index] = event.target.value;
-        newList.push('');
-        setList(newList);
-        event.target.focus();
+        editListItem(index, value);
     }
 
     const keyDownHandler = (e) => {
-        if(e.keyCode === 13) {
+        if (e.keyCode === 13) {
             lastItemRef.current.focus();
         }
     }
 
     return (
-        <FlexBox column className="list-container">
+        <FlexBox
+            column
+            className="list-container"
+        >
             <FlexBox justify align className="list-header-container">
                 <TextBlock className="list-header">
                     {title}
@@ -63,8 +61,11 @@ const ListContainer = ({ title }) => {
                         key={index}
                         index={index}
                         value={el}
-                        changeHandler={changeHandler}
+                        editHandler={editHandler}
                         onKeyDown={keyDownHandler}
+                        deleteListItem={deleteListItem}
+                        addListItem={addListItem}
+                        listLength={list.length}
                     />)}
             </FlexBox>
         </FlexBox>
