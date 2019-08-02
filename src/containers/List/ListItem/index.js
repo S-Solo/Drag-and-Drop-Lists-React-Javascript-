@@ -18,9 +18,15 @@ const ListItem = forwardRef(({
     editHandler,
     deleteListItem }, ref) => {
 
+    const draggEndHandler = (_, monitor) => {
+        if (monitor.didDrop()) {
+            deleteListItem(index);
+        }
+    }
+
     const [{ isDragging }, drag] = useDrag({
         item: { type: LIST_ITEM, value },
-        end: () => deleteListItem(index),
+        end: (_, monitor) => draggEndHandler(_, monitor),
         canDrag: () => value !== '',
         collect: monitor => ({
             isDragging: !!monitor.isDragging(),
