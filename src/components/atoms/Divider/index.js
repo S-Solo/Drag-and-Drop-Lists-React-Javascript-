@@ -6,7 +6,7 @@ const Divider = ({ type }) =>
         <div className={`${type === 'horizontal' ? 'atom_horizontal-divider' : 'atom_vertical-divider'}`} />
 
 Divider.defaultProps = {
-        type: 'horiztontal'
+        type: 'horizontal'
 }
 
 export default Divider;

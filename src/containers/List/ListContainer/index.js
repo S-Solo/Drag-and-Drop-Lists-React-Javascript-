@@ -51,7 +51,6 @@ const ListContainer = ({
     const onDropHandler = (item) => {
         editListItem(list.length - 1, item.value);
         addListItem();
-        lastItemRef.current.blur();
     }
 
     const canDropHandler = (item) => {
