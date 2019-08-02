@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { DndProvider } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 
 import {
     Container,
@@ -37,25 +39,27 @@ const List = ({
                 <FlexBox justify align className="header-container">
                     <TextBlock className="header-text">Why should one use JavaScript?</TextBlock>
                 </FlexBox>
-                <FlexBox className="lists">
-                    <ListContainer
-                        title="PROS"
-                        list={pros}
-                        addListItem={addPros}
-                        editListItem={editPros}
-                        deleteListItem={deletePros}
-                    />
+                <DndProvider backend={HTML5Backend}>
+                    <FlexBox className="lists">
+                        <ListContainer
+                            title="PROS"
+                            list={pros}
+                            addListItem={addPros}
+                            editListItem={editPros}
+                            deleteListItem={deletePros}
+                        />
 
-                    <Divider type="vertical" />
+                        <Divider type="vertical" />
 
-                    <ListContainer
-                        title="CONS"
-                        list={cons}
-                        addListItem={addCons}
-                        editListItem={editCons}
-                        deleteListItem={deleteCons}
-                    />
-                </FlexBox>
+                        <ListContainer
+                            title="CONS"
+                            list={cons}
+                            addListItem={addCons}
+                            editListItem={editCons}
+                            deleteListItem={deleteCons}
+                        />
+                    </FlexBox>
+                </DndProvider>
             </Container>
         </FlexBox>
     )

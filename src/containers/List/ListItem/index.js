@@ -7,21 +7,23 @@ import {
     InputField,
 } from 'components/atoms';
 
+import { LIST_ITEM } from 'constants/dragTypes';
+
 import './styles.scss';
 
 const ListItem = forwardRef(({
     index,
     value,
-    listLength,
     onKeyDown,
-    addListItem,
     editHandler,
-    deleteListItem,
-    isDragging }, ref) => {
-    const [{ opacity }, dragRef] = useDrag({
-        item: { type: 'LIST_ITEM', value },
+    deleteListItem }, ref) => {
+
+    const [{ isDragging }, drag] = useDrag({
+        item: { type: LIST_ITEM, value },
+        end: () => deleteListItem(index),
+        canDrag: () => value !== '',
         collect: monitor => ({
-            opacity: monitor.isDragging() ? 0.5 : 1,
+            isDragging: !!monitor.isDragging(),
         }),
     })
 
@@ -29,8 +31,10 @@ const ListItem = forwardRef(({
         <FlexBox
             className="list-item"
             align
-            ref={dragRef}
-            style={{opacity}}
+            ref={drag}
+            style={{
+                opacity: isDragging ? 0.5 : 1,
+            }}
         >
             <TextBlock className="list-item-index">{index + 1}.</TextBlock>
             <InputField
@@ -47,10 +51,8 @@ const ListItem = forwardRef(({
 ListItem.defaultProps = {
     index: 0,
     value: '',
-    listLength: 0,
-    editHandler: () => { },
     onKeyDown: () => { },
-    addListItem: () => { },
+    editHandler: () => { },
     deleteListItem: () => { },
     ref: null,
 }
